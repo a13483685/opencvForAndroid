@@ -1,8 +1,10 @@
 package com.example.administrator.opencvforandroid;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,17 +21,17 @@ import org.opencv.imgproc.Imgproc;
 import Permision.PermissionHelper;
 import Permision.PermissionInterface;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener , PermissionInterface{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private final String TAG = getClass().getName();
     private Button bt1 = null;
+    private Button bt2 = null;
     private PermissionHelper mPermissionHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mPermissionHelper = new PermissionHelper(this, this);
-        mPermissionHelper.requestPermissions();
+        initViewAndData();
     }
 
     private void opencvLibLoader(){
@@ -45,12 +47,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id){
             case R.id.covGray: convertToGery();
                 break;
+            case R.id.open_camrea:
+                startActivity(new Intent(this,CamreaViewActivity.class));
         }
     }
     private void initViewAndData() {
         opencvLibLoader();
         bt1 = findViewById(R.id.covGray);
+        bt2 = findViewById(R.id.open_camrea);
+
         bt1.setOnClickListener(this);
+        bt2.setOnClickListener(this);
     }
 
     private void convertToGery() {
@@ -72,30 +79,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dst.release();
     }
 
-    @Override
-    public int getPermissionsRequestCode() {
-        //设置权限请求requestCode，只有不跟onRequestPermissionsResult方法中的其他请求码冲突即可。
-        return 10000;
-    }
-
-    @Override
-    public String[] getPermissions() {
-        return new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.CAMERA
-        };
-    }
-
-    @Override
-    public void requestPermissionsSuccess() {
-            initViewAndData();
-    }
-
-
-
-    @Override
-    public void requestPermissionsFail() {
-        finish();
-    }
 }
