@@ -1,5 +1,6 @@
 package com.example.administrator.opencvforandroid;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -15,18 +16,20 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import Permision.PermissionHelper;
+import Permision.PermissionInterface;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener , PermissionInterface{
 
     private final String TAG = getClass().getName();
     private Button bt1 = null;
+    private PermissionHelper mPermissionHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        opencvLibLoader();
-        bt1 = findViewById(R.id.covGray);
-        bt1.setOnClickListener(this);
-
+        mPermissionHelper = new PermissionHelper(this, this);
+        mPermissionHelper.requestPermissions();
     }
 
     private void opencvLibLoader(){
@@ -43,6 +46,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.covGray: convertToGery();
                 break;
         }
+    }
+    private void initViewAndData() {
+        opencvLibLoader();
+        bt1 = findViewById(R.id.covGray);
+        bt1.setOnClickListener(this);
     }
 
     private void convertToGery() {
@@ -62,5 +70,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         src.release();
         temp.release();
         dst.release();
+    }
+
+    @Override
+    public int getPermissionsRequestCode() {
+        //设置权限请求requestCode，只有不跟onRequestPermissionsResult方法中的其他请求码冲突即可。
+        return 10000;
+    }
+
+    @Override
+    public String[] getPermissions() {
+        return new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.CAMERA
+        };
+    }
+
+    @Override
+    public void requestPermissionsSuccess() {
+            initViewAndData();
+    }
+
+
+
+    @Override
+    public void requestPermissionsFail() {
+        finish();
     }
 }
