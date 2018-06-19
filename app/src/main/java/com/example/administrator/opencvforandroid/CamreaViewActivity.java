@@ -111,6 +111,8 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
     private void initData() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             permission();//动态权限认证
+        }else {
+            initViewAndData();
         }
     }
 
