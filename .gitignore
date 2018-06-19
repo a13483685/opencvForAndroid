@@ -12,3 +12,4 @@
 *.dex
 bin/
 gen/
+*.doc

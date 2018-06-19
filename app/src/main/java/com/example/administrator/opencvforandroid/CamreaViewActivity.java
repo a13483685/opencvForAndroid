@@ -39,8 +39,33 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
 
 //        mPermissionHelper = new PermissionHelper(this, this);
 //        mPermissionHelper.requestPermissions();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mCamreaView!=null)
+        {
+            mCamreaView.disableView();
+        }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mCamreaView!=null)
+        {
+            mCamreaView.disableView();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mCamreaView!=null)
+        {
+            mCamreaView.enableView();
+        }
     }
 
     private void initView(){
