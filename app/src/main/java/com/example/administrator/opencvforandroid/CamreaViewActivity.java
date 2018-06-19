@@ -80,6 +80,8 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             //没有授权
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        }else {
+            initViewAndData();
         }
     }
 
