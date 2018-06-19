@@ -4,9 +4,33 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     >
+    <RadioGroup
+        android:id="@+id/rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:id="@+id/preCamrea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="前置摄像头"
+            />
+
+        <RadioButton
+            android:id="@+id/backCamrea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="后置摄像头"
+            android:layout_marginLeft="20sp"
+            />
+
+
+    </RadioGroup>
     <org.opencv.android.JavaCameraView
         android:id="@+id/camrea_view"
+        android:layout_below="@id/rg"
         android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

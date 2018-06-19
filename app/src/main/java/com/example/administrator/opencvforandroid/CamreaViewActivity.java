@@ -11,7 +11,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import org.opencv.android.CameraBridgeViewBase;
@@ -21,20 +23,31 @@ import org.opencv.core.Mat;
 import Permision.PermissionHelper;
 import Permision.PermissionInterface;
 
-public class CamreaViewActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
+public class CamreaViewActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2,View.OnClickListener {
     private JavaCameraView mCamreaView;
     private PermissionHelper mPermissionHelper;
+    private RadioButton rbPreCamrea = null;
+    private RadioButton rbBackCamrea = null;
+    private int camreaIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.camrea_view);
+        initView();
         initData();
 
 //        mPermissionHelper = new PermissionHelper(this, this);
 //        mPermissionHelper.requestPermissions();
 
 
+    }
+
+    private void initView(){
+        rbPreCamrea = findViewById(R.id.preCamrea);
+        rbBackCamrea = findViewById(R.id.backCamrea);
+        rbPreCamrea.setOnClickListener(this);
+        rbBackCamrea.setOnClickListener(this);
     }
 
     @Override
@@ -126,5 +139,25 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id){
+            case R.id.preCamrea:
+                camreaIndex = 1;
+                break;
+            case R.id.backCamrea:
+                camreaIndex = 0;
+                break;
+        }
+        mCamreaView.setCameraIndex(camreaIndex);
+        if(mCamreaView!=null)
+        {
+            mCamreaView.disableView();
+            mCamreaView.enableView();
+        }
+
     }
 }
