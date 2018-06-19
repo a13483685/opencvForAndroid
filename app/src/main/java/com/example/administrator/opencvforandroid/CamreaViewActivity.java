@@ -1,6 +1,7 @@
 package com.example.administrator.opencvforandroid;
 
 import android.Manifest;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,10 +20,14 @@ import android.widget.Toast;
 
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
 
 import Permision.PermissionHelper;
 import Permision.PermissionInterface;
+
+import static org.opencv.imgproc.Imgproc.resize;
 
 public class CamreaViewActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2,View.OnClickListener {
     private JavaCameraView mCamreaView;
@@ -29,6 +35,8 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
     private RadioButton rbPreCamrea = null;
     private RadioButton rbBackCamrea = null;
     private int camreaIndex = 0;
+    private int screemHeight =0;
+    private int screemWeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,9 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
         rbBackCamrea = findViewById(R.id.backCamrea);
         rbPreCamrea.setOnClickListener(this);
         rbBackCamrea.setOnClickListener(this);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        screemHeight= displayMetrics.heightPixels;
+        screemWeight = displayMetrics.widthPixels;
     }
 
     @Override
@@ -87,7 +98,13 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
 
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        return inputFrame.rgba();
+        Mat mat = inputFrame.rgba();
+        //判断横竖屏
+        if(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT == this.getResources().getConfiguration().orientation){
+            Core.rotate(mat,mat,Core.ROTATE_90_CLOCKWISE);
+        }
+        resize(mat,mat,new Size(screemWeight,screemHeight));
+        return mat;
     }
 
     //    @Override
@@ -131,6 +148,7 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
 //        mPermissionHelper = new PermissionHelper(this, this);
 //        mPermissionHelper.requestPermissions();
         mCamreaView = findViewById(R.id.camrea_view);
+        mCamreaView.setOnClickListener(this);
         mCamreaView.setVisibility(SurfaceView.VISIBLE);
         mCamreaView.setCameraIndex(0);
         mCamreaView.enableView();
