@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">openCvForAndroid</string>
+    <string name="invert">反色</string>
+    <string name="edge">边沿</string>
+    <string name="sobel">梯度</string>
+    <string name="boxblue">模糊</string>
 </resources>

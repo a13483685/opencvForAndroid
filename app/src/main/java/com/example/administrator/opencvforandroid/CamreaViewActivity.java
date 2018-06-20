@@ -12,6 +12,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,10 +40,12 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
     private int camreaIndex = 0;
     private int screemHeight =0;
     private int screemWeight = 0;
+    private int option = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.camrea_view);
         initView();
         initData();
@@ -76,6 +81,43 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
         }
     }
 
+
+    @Override
+    public MenuInflater getMenuInflater() {
+        return super.getMenuInflater();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_camrea_view,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id)
+        {
+            case R.id.invert:
+                option = 1;
+                break;
+            case R.id.edge:
+                option = 2;
+                break;
+            case R.id.sobel:
+                option = 3;
+                break;
+            case R.id.boxblue:
+                option = 4;
+                break;
+                default:{
+                    option = 0;
+                }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initView(){
         rbPreCamrea = findViewById(R.id.preCamrea);
         rbBackCamrea = findViewById(R.id.backCamrea);
@@ -100,11 +142,35 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Mat mat = inputFrame.rgba();
         //判断横竖屏
-        if(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT == this.getResources().getConfiguration().orientation){
-            Core.rotate(mat,mat,Core.ROTATE_90_CLOCKWISE);
-        }
-        resize(mat,mat,new Size(screemWeight,screemHeight));
+//        if(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT == this.getResources().getConfiguration().orientation){
+//            Core.rotate(mat,mat,Core.ROTATE_90_CLOCKWISE);
+//        }
+//        resize(mat,mat,new Size(screemWeight,screemHeight));
+        process(option,mat);
         return mat;
+    }
+
+    private void process(int option ,Mat mat) {
+        switch (option){
+            case 0:
+                break;
+            case 1:
+                Core.bitwise_not(mat,mat);
+                //反转
+                break;
+            case 2:
+                //边沿
+                Toast.makeText(CamreaViewActivity.this,"边沿",Toast.LENGTH_SHORT).show();
+                break;
+            case 3:
+                //梯度
+                Toast.makeText(CamreaViewActivity.this,"梯度",Toast.LENGTH_SHORT).show();
+                break;
+            case 4:
+                //模糊
+                Toast.makeText(CamreaViewActivity.this,"模糊",Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     //    @Override
@@ -148,7 +214,8 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
 //        mPermissionHelper = new PermissionHelper(this, this);
 //        mPermissionHelper.requestPermissions();
         mCamreaView = findViewById(R.id.camrea_view);
-        mCamreaView.setOnClickListener(this);
+//        mCamreaView.setOnClickListener(this);
+        mCamreaView.setCvCameraViewListener(this);
         mCamreaView.setVisibility(SurfaceView.VISIBLE);
         mCamreaView.setCameraIndex(0);
         mCamreaView.enableView();
