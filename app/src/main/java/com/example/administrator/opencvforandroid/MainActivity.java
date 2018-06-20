@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Mat temp = new Mat();
         Mat dst = new Mat();
 
-        Bitmap image = BitmapFactory.decodeResource(this.getResources(),R.mipmap.ic_launcher);
+        Bitmap image = BitmapFactory.decodeResource(this.getResources(),R.drawable.lena);
         Utils.bitmapToMat(image,src);
         Imgproc.cvtColor(src,temp,Imgproc.COLOR_RGBA2BGR);//bitmap为四通道的RGBA mat为三通道
         Log.i(TAG,"image type :" + (temp.type() == CvType.CV_8UC3));

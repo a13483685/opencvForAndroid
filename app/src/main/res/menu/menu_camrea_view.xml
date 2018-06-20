@@ -4,4 +4,5 @@
 <item android:id="@+id/edge" android:title="@string/edge"/>
 <item android:id="@+id/sobel" android:title="@string/sobel"/>
 <item android:id="@+id/boxblue" android:title="@string/boxblue"/>
+<item android:id="@+id/origin" android:title="@string/origin"/>
 </menu>

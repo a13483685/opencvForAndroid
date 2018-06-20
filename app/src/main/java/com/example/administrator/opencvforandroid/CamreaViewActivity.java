@@ -24,8 +24,10 @@ import android.widget.Toast;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
 import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
 
 import Permision.PermissionHelper;
 import Permision.PermissionInterface;
@@ -98,6 +100,9 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
         int id = item.getItemId();
         switch (id)
         {
+            case R.id.origin:
+                option = 0;
+                break;
             case R.id.invert:
                 option = 1;
                 break;
@@ -160,15 +165,32 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
                 break;
             case 2:
                 //边沿
-                Toast.makeText(CamreaViewActivity.this,"边沿",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CamreaViewActivity.this,"边沿",Toast.LENGTH_SHORT).show();
+                Mat edges = new Mat();
+                Imgproc.Canny(mat,edges,100,200,3,false);
+                Mat result = Mat.zeros(mat.size(),mat.type());
+                mat.copyTo(result,edges);
+                result.copyTo(mat);
+
+                edges.release();
+                result.release();
                 break;
             case 3:
                 //梯度
-                Toast.makeText(CamreaViewActivity.this,"梯度",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CamreaViewActivity.this,"梯度",Toast.LENGTH_SHORT).show();
+                Mat gradx= new Mat();
+                Imgproc.Sobel(mat,gradx, CvType.CV_32F,1,0);
+                Core.convertScaleAbs(gradx,gradx);
+                gradx.copyTo(mat);
+                gradx.release();
                 break;
             case 4:
                 //模糊
-                Toast.makeText(CamreaViewActivity.this,"模糊",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CamreaViewActivity.this,"模糊",Toast.LENGTH_SHORT).show();
+                Mat temp = new Mat();
+                Imgproc.blur(mat,temp,new Size(15,15));
+                temp.copyTo(mat);
+                temp.release();
                 break;
         }
     }

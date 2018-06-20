@@ -4,4 +4,5 @@
     <string name="edge">边沿</string>
     <string name="sobel">梯度</string>
     <string name="boxblue">模糊</string>
+    <string name="origin">还原</string>
 </resources>
