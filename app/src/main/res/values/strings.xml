@@ -5,4 +5,5 @@
     <string name="sobel">梯度</string>
     <string name="boxblue">模糊</string>
     <string name="origin">还原</string>
+    <string name="face_detect">人脸识别</string>
 </resources>

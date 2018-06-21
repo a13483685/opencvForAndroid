@@ -39,23 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViewAndData();
-        try {
-            initFaceDetectorData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    private void initFaceDetectorData() throws IOException{
-        InputStream in = getResources().openRawResource(R.raw.haarcascade_frontalface_alt_tree);
-        File cascadeDir = this.getDir("cascade", Context.MODE_PRIVATE);
-        File file = new File(cascadeDir.getAbsolutePath()+"haarcascade_frontalface_alt_tree.xml");
-        FileOutputStream out = new FileOutputStream(file);
-        byte[] buf = new byte[1024];
-        int len = 0;
-        while ((len = in.read(buf))!=-1){
-            out.write(buf,0,len);
-        }
     }
 
     private void opencvLibLoader(){
