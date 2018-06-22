@@ -43,10 +43,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void opencvLibLoader(){
-        boolean load = OpenCVLoader.initDebug();
-        if(load){
-            Log.i(TAG,"Opencv CV Libraries loaded...");
-        }
+//        boolean load = OpenCVLoader.initDebug();
+//        if(load){
+//            Log.i(TAG,"Opencv CV Libraries loaded...");
+//        }
+        System.loadLibrary("haar_detect-lib");
     }
 
     @Override

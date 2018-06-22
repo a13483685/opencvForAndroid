@@ -9,13 +9,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        sourceSets.main{
-            jniLibs.srcDir 'src/main/libs'
-            jni.srcDirs = [] //将native方法不加入编译规则
+        externalNativeBuild { //原生接口的构建
+            cmake {
+                cppFlags "-std=c++11"
+            }
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
         }
-
-
-
+        sourceSets { //库文件所在的路径
+            main {
+                jniLibs.srcDirs=['libs']
+            }
+        }
     }
     buildTypes {
         release {
@@ -23,12 +29,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
     buildToolsVersion '27.0.3'
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation fileTree(dir: "$buildDir/native-libs",include: 'native-libs.jar')
+//    implementation fileTree(dir: "$buildDir/native-libs",include: 'native-libs.jar')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
     testImplementation 'junit:junit:4.12'
@@ -37,12 +48,12 @@ dependencies {
     implementation project(':openCVLibrary340')
 }
 
-task nativeLibsToJar(type:Jar,description:'create a jar archive of the native libs') {
-    destinationDir file("$buildDir/native-libs")
-    baseName 'native-libs'
-    from fileTree(dir: 'libs',include: '**/*.so')
-    into 'lib/'
-}
-tasks.withType(JavaCompile){
-    compileTask -> compileTask.dependsOn(nativeLibsToJar)
-}
+//task nativeLibsToJar(type:Jar,description:'create a jar archive of the native libs') {
+//    destinationDir file("$buildDir/native-libs")
+//    baseName 'native-libs'
+//    from fileTree(dir: 'libs',include: '**/*.so')
+//    into 'lib/'
+//}
+//tasks.withType(JavaCompile){
+//    compileTask -> compileTask.dependsOn(nativeLibsToJar)
+//}
