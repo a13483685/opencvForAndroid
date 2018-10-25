@@ -10,12 +10,14 @@ cmake_minimum_required(VERSION 3.4.1)
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
 #添加头文件路径（相对于本文件路径）
-include_directories(include)
+include_directories(F:/work/android/opencvForAndroid/app/include)
 #设置ffmpeg库所在路径的变量
-set(FF ${CMAKE_CURRENT_SOURCE_DIR}/libs/${ANDROID_ABI})
+#set(FF ${CMAKE_CURRENT_SOURCE_DIR}/libs/${ANDROID_ABI})
+set(FF F:/work/android/opencvForAndroid/app/src/libs/armeabi-v7a)
+
+message("CURRENT_DIR:" ${CMAKE_CURRENT_SOURCE_DIR})
 add_library(opencv_java3 SHARED IMPORTED)
 set_target_properties(opencv_java3 PROPERTIES IMPORTED_LOCATION ${FF}/libopencv_java3.so)
-
 
 
 add_library( # Sets the name of the library.
@@ -47,8 +49,8 @@ find_library( # Sets the name of the path variable.
 
 target_link_libraries( # Specifies the target library.
                        haar_detect-lib
-                       android
                        opencv_java3
+                       android
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )

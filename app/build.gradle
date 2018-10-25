@@ -11,11 +11,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild { //原生接口的构建
             cmake {
-                cppFlags "-std=c++11"
+                cppFlags "-std=c++11 -frtti -fexceptions"
             }
             ndk {
                 abiFilters "armeabi-v7a"
             }
+
         }
         sourceSets { //库文件所在的路径
             main {
