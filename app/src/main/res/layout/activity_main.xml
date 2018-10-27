@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-<Button
-    android:id="@+id/covGray"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="转化为灰度图像"
-    />
+    <Button
+        android:id="@+id/covGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="转化为灰度图像"
+        />
 
     <ImageView
         android:id="@+id/image"
@@ -27,6 +27,13 @@
         android:layout_height="wrap_content"
         android:text="打开摄像头"
         android:layout_toRightOf="@id/covGray"
+        />
+    <Button
+        android:id="@+id/eye_tracker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="眼球跟踪"
+        android:layout_toRightOf="@id/open_camrea"
         />
 
 </RelativeLayout>

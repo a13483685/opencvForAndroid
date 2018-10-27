@@ -33,13 +33,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String TAG = getClass().getName();
     private Button bt1 = null;
     private Button bt2 = null;
+    private Button bt3 = null;
     private PermissionHelper mPermissionHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViewAndData();
-
     }
 
     private void opencvLibLoader(){
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(load){
             Log.i(TAG,"Opencv CV Libraries loaded...");
         }
-//        System.loadLibrary("face_detection");
+        System.loadLibrary("haar_detect-lib");
     }
 
     @Override
@@ -58,15 +58,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.open_camrea:
                 startActivity(new Intent(this,CamreaViewActivity.class));
+            case R.id.eye_tracker:
+                startActivity(new Intent(this, EyeDetect.class));
         }
     }
     private void initViewAndData() {
         opencvLibLoader();
         bt1 = findViewById(R.id.covGray);
         bt2 = findViewById(R.id.open_camrea);
-
+        bt3 = findViewById(R.id.eye_tracker);
         bt1.setOnClickListener(this);
         bt2.setOnClickListener(this);
+        bt3.setOnClickListener(this);
     }
 
     private void convertToGery() {
@@ -87,5 +90,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         temp.release();
         dst.release();
     }
-
 }

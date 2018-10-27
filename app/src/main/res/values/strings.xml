@@ -6,4 +6,10 @@
     <string name="boxblue">模糊</string>
     <string name="origin">还原</string>
     <string name="face_detect">人脸识别</string>
+
+    <string name="faceDetection">人脸检测</string>
+    <string name="preview">摄像头预览</string>
+    <string name="eyeare">眼睛区域</string>
+    <string name="eye_ball">眼球</string>
+    <string name="eye_render">渲染</string>
 </resources>

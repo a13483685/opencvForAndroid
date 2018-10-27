@@ -20,7 +20,7 @@ android {
         }
         sourceSets { //库文件所在的路径
             main {
-                jniLibs.srcDirs=['libs']
+                jniLibs.srcDirs = ['libs']
             }
         }
     }
@@ -58,3 +58,4 @@ dependencies {
 //tasks.withType(JavaCompile){
 //    compileTask -> compileTask.dependsOn(nativeLibsToJar)
 //}
+

@@ -68,8 +68,8 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
     }
 
     private void initFaceDetectorData() throws IOException {
-        System.loadLibrary("haar_detect-lib");
-        InputStream in = getResources().openRawResource(R.raw.haarcascade_frontalface_alt_tree);
+//        System.loadLibrary("haar_detect-lib");
+        InputStream in = getResources().openRawResource(R.raw.lbpcascade_frontalface_improved);
         File cascadeDir = this.getDir("cascade", Context.MODE_PRIVATE);
         File file = new File(cascadeDir.getAbsolutePath() , "haarcascade_frontalface_alt_tree.xml");
         FileOutputStream out = new FileOutputStream(file);
@@ -174,6 +174,9 @@ public class CamreaViewActivity extends AppCompatActivity implements CameraBridg
     @Override
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Mat mat = inputFrame.rgba();
+        if(camreaIndex == 1){
+            Core.flip(mat,mat,1);
+        }
         //判断横竖屏
 //        if(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT == this.getResources().getConfiguration().orientation){
 //            Core.rotate(mat,mat,Core.ROTATE_90_CLOCKWISE);
